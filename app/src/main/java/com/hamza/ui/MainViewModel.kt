@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
     @SuppressLint("MissingPermission")
     fun updateNotification(){
         notificationManager.notify(1,notificationBuilder
-            .setContentTitle("Title 2")
+            .setContentTitle("TITLE 2")
             .setContentText("Hello World 2 ")
             .build())
     }
