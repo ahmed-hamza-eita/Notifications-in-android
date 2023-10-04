@@ -5,11 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 
+
 class MyReceiver:BroadcastReceiver() {
+
     override fun onReceive(context: Context?, intent: Intent?) {
+        //When clicked on notification show toast
        val message = intent?.getStringExtra("MESSAGE_KEY")
         if (message != null){
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
+
+
+
     }
 }

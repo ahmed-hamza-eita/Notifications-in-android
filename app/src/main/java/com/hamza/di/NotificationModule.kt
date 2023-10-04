@@ -5,26 +5,25 @@ import android.app.Notification.VISIBILITY_PRIVATE
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import androidx.core.app.RemoteInput
+
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.net.toUri
+ import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
+
 import com.hamza.utils.Const
 import com.hamza.notifications.R
 import com.hamza.receiver.MyReceiver
 import com.hamza.ui.DetailsActivity
-import com.hamza.ui.MainActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.Contexts
-import dagger.hilt.android.qualifiers.ApplicationContext
+ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -48,7 +47,7 @@ object NotificationModule {
             0
         }
 
-      //show message when clicked on button in Notification
+        //show message when clicked on button in Notification
         val actionIntent = Intent(context, MyReceiver::class.java).apply {
             putExtra("MESSAGE_KEY", "Clicked!!")
         }
@@ -80,8 +79,11 @@ object NotificationModule {
             .setSmallIcon(R.drawable.baseline_notifications_24)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .addAction(0, "ACTION", actionPendingIntent)
+             .addAction(0, "ACTION", actionPendingIntent)
             .setContentIntent(clickPendingIntent)
+            .setOnlyAlertOnce(true)
+
+
             // show notification in lock screen without details
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setPublicVersion(
@@ -99,11 +101,13 @@ object NotificationModule {
     fun provideSecondNotificationBuilder(
         @ApplicationContext context: Context
     ): NotificationCompat.Builder {
-        return NotificationCompat.Builder(context,Const.CHANNEL_ID_LOW_IMPORTANCE)
+        return NotificationCompat.Builder(context, Const.CHANNEL_ID_LOW_IMPORTANCE)
             .setSmallIcon(R.drawable.baseline_notifications_24)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
     }
+
+
     @Singleton
     @Provides
     fun provideNotificationManager(
@@ -127,6 +131,7 @@ object NotificationModule {
         return notificationManager
     }
 }
+
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

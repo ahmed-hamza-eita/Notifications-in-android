@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             btnDownload.setOnClickListener {
                 vm.showProgress()
             }
+
         }
     }
 

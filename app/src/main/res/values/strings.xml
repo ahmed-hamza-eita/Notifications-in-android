@@ -5,4 +5,5 @@
     <string name="update_notifications">Update Notifications</string>
     <string name="details_screen">Details Screen</string>
     <string name="download">Download...</string>
+    <string name="replay_to_message">Replay To message</string>
 </resources>
