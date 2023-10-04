@@ -1,11 +1,18 @@
 package com.hamza.ui
 
+import android.app.PendingIntent
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.hamza.notifications.R
 import com.hamza.notifications.databinding.ActivityMainBinding
+import com.hamza.utils.Const
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavDeepLinkSaveStateControl
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -34,7 +41,19 @@ class MainActivity : AppCompatActivity() {
             cancelNotification.setOnClickListener {
                 cancelNotification()
             }
+            btnDetailsScreen.setOnClickListener {
+                openDetailsScreen()
+            }
         }
+    }
+
+
+    private fun openDetailsScreen() {
+        val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+        intent.putExtra(Const.DETAILS_SCREEN_KEY,"Coming From Main Screen")
+        startActivity(intent)
+
+
     }
 
     private fun showSimpleNotifications() {
@@ -44,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateNotification() {
         vm.updateNotification()
     }
+
     private fun cancelNotification() {
         vm.cancelNotification()
     }

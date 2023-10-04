@@ -3,4 +3,5 @@
     <string name="show_simple_notifications">Show Simple Notifications</string>
     <string name="cancel_notifications">Cancel Notifications</string>
     <string name="update_notifications">Update Notifications</string>
+    <string name="details_screen">Details Screen</string>
 </resources>
