@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Notifications</string>
+    <string name="show_simple_notifications">Show Simple Notifications</string>
+    <string name="cancel_notifications">Cancel Notifications</string>
+    <string name="update_notifications">Update Notifications</string>
+</resources>
