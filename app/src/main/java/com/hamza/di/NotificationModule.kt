@@ -26,6 +26,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -35,6 +36,7 @@ object NotificationModule {
     @SuppressLint("ObsoleteSdkInt")
     @Singleton
     @Provides
+    @MainNotificationCompatBuilder
     //How Notification look like
     fun provideNotificationBuilder(
         @ApplicationContext context: Context
@@ -46,7 +48,7 @@ object NotificationModule {
             0
         }
 
-//show message when clicked on button in Notification
+      //show message when clicked on button in Notification
         val actionIntent = Intent(context, MyReceiver::class.java).apply {
             putExtra("MESSAGE_KEY", "Clicked!!")
         }
@@ -72,7 +74,6 @@ object NotificationModule {
         }
 
 
-
         return NotificationCompat.Builder(context, Const.CHANNEL_ID)
             .setContentTitle("Welcome")
             .setContentText("hello world")
@@ -91,7 +92,18 @@ object NotificationModule {
             )
     }
 
-
+    @Singleton
+    @Provides
+    @SecondNotificationCompatBuilder
+    //How Notification look like
+    fun provideSecondNotificationBuilder(
+        @ApplicationContext context: Context
+    ): NotificationCompat.Builder {
+        return NotificationCompat.Builder(context,Const.CHANNEL_ID_LOW_IMPORTANCE)
+            .setSmallIcon(R.drawable.baseline_notifications_24)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOngoing(true)
+    }
     @Singleton
     @Provides
     fun provideNotificationManager(
@@ -102,10 +114,24 @@ object NotificationModule {
             val channel = NotificationChannel(
                 Const.CHANNEL_ID,
                 "Main Channel",
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val channelOfLowImportance = NotificationChannel(
+                Const.CHANNEL_ID_LOW_IMPORTANCE,
+                "Channel Low Importance",
+                NotificationManager.IMPORTANCE_LOW
             )
             notificationManager.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channelOfLowImportance)
         }
         return notificationManager
     }
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MainNotificationCompatBuilder
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SecondNotificationCompatBuilder

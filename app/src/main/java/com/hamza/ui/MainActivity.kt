@@ -33,16 +33,19 @@ class MainActivity : AppCompatActivity() {
     private fun actions() {
         binding.apply {
             showNotification.setOnClickListener {
-                showSimpleNotifications()
+                vm.showSimpleNotification()
             }
             updateNotification.setOnClickListener {
-                updateNotification()
+                vm.updateNotification()
             }
             cancelNotification.setOnClickListener {
-                cancelNotification()
+                vm.cancelNotification()
             }
             btnDetailsScreen.setOnClickListener {
                 openDetailsScreen()
+            }
+            btnDownload.setOnClickListener {
+                vm.showProgress()
             }
         }
     }
@@ -50,23 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDetailsScreen() {
         val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-        intent.putExtra(Const.DETAILS_SCREEN_KEY,"Coming From Main Screen")
+        intent.putExtra(Const.DETAILS_SCREEN_KEY, "Coming From Main Screen")
         startActivity(intent)
 
 
     }
 
-    private fun showSimpleNotifications() {
-        vm.showSimpleNotification()
-    }
-
-    private fun updateNotification() {
-        vm.updateNotification()
-    }
-
-    private fun cancelNotification() {
-        vm.cancelNotification()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
